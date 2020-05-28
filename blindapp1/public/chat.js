@@ -39,6 +39,7 @@ socket.on('chat', function(data){
     output.innerHTML += '<p><strong>' + data.handle + ': </strong>' + data.message + '</p>';    
     var hello = data.message;
     convert();
+    navigator.vibrate(playMorseCode(data.message));
 });
 
 
@@ -59,12 +60,12 @@ function convert(){
         }
     }
 
-  (function(){
+  
 var morsecode= newText;
-var toPlay = playMorseCode(morsecode);
-navigator.vibrate(toPlay);   
+ 
+   
 
-})();
+
 
 
 function playMorseCode(code) {
