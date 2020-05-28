@@ -37,7 +37,7 @@ btn.addEventListener('click', function(){
 socket.on('chat', function(data){
     
     output.innerHTML += '<p><strong>' + data.handle + ': </strong>' + data.message + '</p>';    
-    let hello = data.message;
+    var hello = data.message;
     convert();
 });
 
