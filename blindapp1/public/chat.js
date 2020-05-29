@@ -1,8 +1,8 @@
-var socket = io.connect('https://blindapp1.herokuapp.com');
+var socket = io.connect('https://blind123.herokuapp.com');
 
 var message = document.getElementById('message'),
-      handle = document.getElementById('handle'),
-      btn = document.getElementById('send'),
+      
+      
       output = document.getElementById('output');
       myElement = document.getElementById('chat-window');
 
@@ -20,8 +20,7 @@ mc.on("panleft panright tap press swipe", function(ev) {
     navigator.vibrate(400);
   }else if(ev.type == 'swipe'){
     socket.emit('chat', {
-      message: message.value,
-      handle: handle.value
+      message: message.value      
     });
     message.value = "";
     navigator.vibrate([800,800,1000]);
@@ -30,14 +29,12 @@ mc.on("panleft panright tap press swipe", function(ev) {
 });
 
 
-btn.addEventListener('click', function(){
-  
-});
+
 
 socket.on('chat', function(data){
-    
-    output.innerHTML += '<p><strong>' + data.handle + ': </strong>' + data.message + '</p>';    
-    var hello = data.message;
+       
+    output.innerHTML = '<p><strong>' + data.message + ' </strong></p><br>' + '<p><strong>' + decodeMorse(data.message) + '</strong></p><br>';    
+    let hello = data.message;
     convert();
     
 });
@@ -60,18 +57,12 @@ function convert(){
         }
     }
 
-  
+  (function(){
+var morsecode= newText;
+var toPlay = playMorseCode(morsecode);
+navigator.vibrate(toPlay);   
 
-function runSequence(input) {
-    var toPlay = playMorseCode(input);
-    navigator.vibrate(toPlay);
-    
-  };
-runSequence(newText);
- 
-   
-
-
+})();
 
 
 function playMorseCode(code) {
@@ -105,4 +96,55 @@ if (((i + 1) < code.length)
 
 return arrayToPlay;
 }
+}
+
+function decodeMorse(morseCode) {
+  var ref = { 
+    '.-':     'a',
+    '-...':   'b',
+    '-.-.':   'c',
+    '-..':    'd',
+    '.':      'e',
+    '..-.':   'f',
+    '--.':    'g',
+    '....':   'h',
+    '..':     'i',
+    '.---':   'j',
+    '-.-':    'k',
+    '.-..':   'l',
+    '--':     'm',
+    '-.':     'n',
+    '---':    'o',
+    '.--.':   'p',
+    '--.-':   'q',
+    '.-.':    'r',
+    '...':    's',
+    '-':      't',
+    '..-':    'u',
+    '...-':   'v',
+    '.--':    'w',
+    '-..-':   'x',
+    '-.--':   'y',
+    '--..':   'z',
+    '.----':  '1',
+    '..---':  '2',
+    '...--':  '3',
+    '....-':  '4',
+    '.....':  '5',
+    '-....':  '6',
+    '--...':  '7',
+    '---..':  '8',
+    '----.':  '9',
+    '-----':  '0',
+  };
+
+  return morseCode
+    .split('   ')
+    .map(
+      a => a
+        .split(' ')
+        .map(
+          b => ref[b]
+        ).join('')
+    ).join(' ');
 }
